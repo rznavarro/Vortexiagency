@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/project/Vortexia.dc.html" },
+    { "source": "/support.js", "destination": "/project/support.js" },
+    { "source": "/uploads/:path*", "destination": "/project/uploads/:path*" },
+    { "source": "/assets/:path*", "destination": "/project/assets/:path*" }
+  ]
+}
