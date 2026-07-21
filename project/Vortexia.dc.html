@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Saira+Stencil+One&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#000;color:#fff;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:#fff;text-decoration:none}
+a:hover{color:#D1D5DB}
+@keyframes vxWord{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes vxFade{from{opacity:0}to{opacity:1}}
+@keyframes vxMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes vxBlurLoop{0%{opacity:0;filter:blur(10px);transform:translateY(-50px)}9%{opacity:0.5;filter:blur(5px);transform:translateY(5px)}18%{opacity:1;filter:blur(0);transform:translateY(0)}82%{opacity:1;filter:blur(0);transform:translateY(0)}100%{opacity:0;filter:blur(10px);transform:translateY(-50px)}}
+@keyframes vxPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,0.5)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(255,255,255,0)}}
+::selection{background:#fff;color:#000}
+</style>
+</helmet>
+
+<div style="background:#000;color:#fff;min-height:100vh;overflow-x:hidden">
+
+  <!-- ══ LOADING SCREEN ══ -->
+  <sc-if value="{{ showLoader }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity 600ms ease;opacity:{{ loaderOpacity }}">
+      <div style="font-size:clamp(64px,12vw,140px);font-weight:300;letter-spacing:-0.05em;line-height:1;font-variant-numeric:tabular-nums">{{ pct }}</div>
+      <div style="font-size:14px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:#D1D5DB">{{ loadWord }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ══ NAVBAR (pill) ══ -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:16px 20px 0">
+    <div class="liquid" style="display:flex;align-items:center;gap:clamp(14px,3vw,32px);background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.18);box-shadow:inset 0 1px 1px rgba(255,255,255,0.12);border-radius:999px;padding:8px 8px 8px 22px">
+      <a href="#top" style="font-size:17px;font-weight:600;letter-spacing:-0.025em;color:#fff">VORTEXIA</a>
+      <div style="display:flex;gap:clamp(12px,2.5vw,24px);font-size:13px;font-weight:500">
+        <a href="#reto" style="color:#fff;transition:color 0.2s" style-hover="color:#D1D5DB">El Reto</a>
+        <a href="#sitios" style="color:#fff;transition:color 0.2s" style-hover="color:#D1D5DB">Sitios</a>
+        <a href="#proceso" style="color:#fff;transition:color 0.2s" style-hover="color:#D1D5DB">Proceso</a>
+        <a href="#oferta" style="color:#fff;transition:color 0.2s" style-hover="color:#D1D5DB">Oferta</a>
+      </div>
+      <a href="https://wa.me/56939054197?text=Hola%20Vortexia%2C%20soy%20realtor%20y%20quiero%20mi%20sitio." target="_blank" rel="noopener" style="background:#fff;color:#000;padding:9px 20px;border-radius:999px;font-size:13px;font-weight:500;transition:background 0.2s" style-hover="background:#F3F4F6;color:#000">Hablemos</a>
+    </div>
+  </div>
+
+  <!-- ══ HERO ══ -->
+  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+    <video autoPlay="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" ref="{{ videoRef }}" src="uploads/hero_video-1783916194296.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+    <video muted="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef2 }}" src="uploads/Wan_Video_Generate_Camera movement_ Slow, ultra-smooth dolly push forward starti.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1200ms ease"></video>
+    <video muted="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef3 }}" src="uploads/Wan_Video_Generate_Cinematic luxury mansion tour. The camera starts in a perfect.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1200ms ease"></video>
+    <video muted="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef4 }}" src="uploads/Wan_Video_Generate_One continuous cinematic camera move. Starting from the exact.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1200ms ease"></video>
+    <div style="position:relative;z-index:2;padding:0 clamp(20px,5vw,64px);display:flex;justify-content:center;text-align:center">
+      <div style="max-width:1000px">
+        <h1 style="font-family:'Saira Stencil One',sans-serif;font-size:clamp(2.1rem,5vw,4rem);font-weight:400;letter-spacing:0.01em;line-height:1.14;margin:0;text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,0.35)">
+          <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 0ms infinite">El</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 150ms infinite">realtor</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 300ms infinite">con</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 450ms infinite">el</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 600ms infinite">mejor</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 750ms infinite">sitio</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 900ms infinite">de</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1050ms infinite">su</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1200ms infinite">ciudad</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1350ms infinite">cierra</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1500ms infinite">más</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1650ms infinite">rápido.</span>
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EL RETO ══ -->
+  <section id="reto" data-screen-label="El Reto" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
+    <div data-reveal="" style="max-width:1200px;margin:0 auto">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.14)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="width:8px;height:8px;border-radius:999px;background:#fff;animation:vxPulse 2s ease infinite"></span>
+          <span style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#fff;white-space:nowrap">El Reto del Millón</span>
+          <span style="font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D1D5DB;border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:4px 12px;white-space:nowrap">En vivo</span>
+        </div>
+        <span style="font-size:12px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D1D5DB">Documentado en Instagram</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:clamp(28px,5vw,72px);padding:clamp(48px,8vh,88px) 0">
+        <div style="display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <span style="font-size:clamp(96px,16vw,220px);font-weight:300;letter-spacing:-0.06em;line-height:0.9;font-variant-numeric:tabular-nums" data-count="{{ retoDia }}" data-pad="2">{{ retoDia }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:26px">
+            <span style="width:28px;height:1px;background:rgba(255,255,255,0.3)"></span>
+            <span style="font-size:13px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:#D1D5DB">Día del reto</span>
+            <span style="width:28px;height:1px;background:rgba(255,255,255,0.3)"></span>
+          </div>
+        </div>
+        <div style="width:1px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.35) 50%,rgba(255,255,255,0) 100%);transform:skewX(-12deg);align-self:stretch"></div>
+        <div style="display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <span style="font-size:clamp(96px,16vw,220px);font-weight:300;letter-spacing:-0.06em;line-height:0.9;font-variant-numeric:tabular-nums" data-count="{{ retoSitios }}" data-pad="2">{{ retoSitios }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:26px">
+            <span style="width:28px;height:1px;background:rgba(255,255,255,0.3)"></span>
+            <span style="font-size:13px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:#D1D5DB">Sitios creados</span>
+            <span style="width:28px;height:1px;background:rgba(255,255,255,0.3)"></span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.14)">
+        <p style="font-size:clamp(15px,1.6vw,18px);font-weight:400;color:#D1D5DB;line-height:1.6;margin:0;max-width:520px">Cada sitio que hacemos queda documentado. En público. Sin editar.</p>
+        <a href="https://www.instagram.com/vortexia.automate" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#fff;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.22);box-shadow:inset 0 1px 1px rgba(255,255,255,0.12);border-radius:999px;padding:12px 28px;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">Seguir el reto en @vortexia.automate →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALERÍA ══ -->
+  <section id="sitios" data-screen-label="Galería de sitios" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
+    <div style="max-width:1280px;margin:0 auto">
+      <div data-reveal="" style="max-width:680px;margin-bottom:56px">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:16px">Los sitios</div>
+        <h2 style="font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-0.04em;line-height:1.15;margin:0 0 14px">No te lo contamos.<br>Entrá y recorrelos.</h2>
+        <p style="font-size:16px;color:#D1D5DB;line-height:1.65;margin:0">Cada card abre el sitio real, en vivo. Tocá cualquiera.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px">
+
+        <a data-reveal="" href="https://juanpablopistorio.vercel.app/" target="_blank" rel="noopener" style="position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:url('assets/site-juanpablopistorio.png') center top / cover no-repeat;border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;overflow:hidden;transition:border-color 0.25s" style-hover="border-color:rgba(255,255,255,0.45);color:#fff">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.2) 45%,rgba(0,0,0,0.35) 100%);pointer-events:none"></div>
+          <div style="position:relative;display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.8"><span>01</span><span>Realtor</span></div>
+          <div style="position:relative"><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Juan Pablo Pistorio</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.75"><span>juanpablopistorio.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://tupiso.vercel.app/" target="_blank" rel="noopener" style="position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:url('assets/site-tupiso.png') center top / cover no-repeat;border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;overflow:hidden;transition:border-color 0.25s" style-hover="border-color:rgba(255,255,255,0.45);color:#fff">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.2) 45%,rgba(0,0,0,0.35) 100%);pointer-events:none"></div>
+          <div style="position:relative;display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.8"><span>02</span><span>Inmobiliaria</span></div>
+          <div style="position:relative"><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">TuPiso</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.75"><span>tupiso.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://estates-real-estate.vercel.app/" target="_blank" rel="noopener" style="position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:url('assets/site-estates.png') center top / cover no-repeat;border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;overflow:hidden;transition:border-color 0.25s" style-hover="border-color:rgba(255,255,255,0.45);color:#fff">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.2) 45%,rgba(0,0,0,0.35) 100%);pointer-events:none"></div>
+          <div style="position:relative;display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.8"><span>03</span><span>Real Estate</span></div>
+          <div style="position:relative"><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Estates</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.75"><span>estates-real-estate.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://hernan-sosa.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>04</span><span>Realtor</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Hernán Sosa</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>hernan-sosa.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://costadelpacifico-omega.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>05</span><span>Desarrollo</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Costa del Pacífico</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>costadelpacifico-omega.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://correaschmit.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>06</span><span>Brokers</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Correa Schmit</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>correaschmit.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://schumacher.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>07</span><span>Realtor</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Schumacher</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>schumacher.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://activomas.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>08</span><span>Inmobiliaria</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Activo Más</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>activomas.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://valleconstructores.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>09</span><span>Constructora</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Valle Constructores</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>valleconstructores.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+        <a data-reveal="" href="https://brokerand-partner.vercel.app/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;justify-content:space-between;gap:56px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:26px 28px;color:#fff;transition:background 0.25s,color 0.25s" style-hover="background:#fff;color:#000">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.55"><span>10</span><span>Brokers</span></div>
+          <div><div style="font-size:clamp(22px,2.4vw,30px);font-weight:400;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px">Broker &amp; Partner</div><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;opacity:0.6"><span>brokerand-partner.vercel.app</span><span style="font-size:18px">→</span></div></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ POR QUÉ SOLO REALTORS ══ -->
+  <section id="porque" data-screen-label="Por qué solo realtors" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
+    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,80px)">
+      <div data-reveal="">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:16px">Por qué solo realtors</div>
+        <h2 style="font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-0.04em;line-height:1.15;margin:0">Una agencia genérica hace sitios.<br>Nosotros hacemos sitios que venden propiedades.</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div data-reveal="" style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,0.12)">
+          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Sabemos qué mira un comprador</div>
+          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">Fotos primero, precio claro, contacto en un toque. Cada sitio está armado alrededor de cómo se compra una propiedad, no de cómo se ve bonita una web.</p>
+        </div>
+        <div data-reveal="" style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,0.12)">
+          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">WhatsApp, no formularios</div>
+          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">En Miami, Santiago o Bogotá, los negocios inmobiliarios se cierran por WhatsApp. Tu sitio lleva ahí, sin fricción.</p>
+        </div>
+        <div data-reveal="" style="padding:26px 0">
+          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Hablamos tu idioma y tu mercado</div>
+          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">Español e inglés, USD, mercados hispanos. No tenés que explicarle tu negocio a tu diseñador.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROCESO ══ -->
+  <section id="proceso" data-screen-label="Proceso" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
+    <div style="max-width:1100px;margin:0 auto">
+      <div data-reveal="" style="text-align:center;margin-bottom:56px">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:16px">Proceso</div>
+        <h2 style="font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-0.04em;line-height:1.15;margin:0">Tres pasos. Nada más.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px">
+        <div data-reveal="" style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:32px 30px">
+          <div style="font-size:44px;font-weight:300;letter-spacing:-0.04em;color:#D1D5DB;margin-bottom:18px">01</div>
+          <div style="font-size:18px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Llamada obligatoria</div>
+          <p style="font-size:14px;color:#D1D5DB;line-height:1.65;margin:0">Escribís por WhatsApp y agendamos. Sin llamada no hay proyecto: necesitamos entender tu mercado antes de diseñar.</p>
+        </div>
+        <div data-reveal="" style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:32px 30px">
+          <div style="font-size:44px;font-weight:300;letter-spacing:-0.04em;color:#D1D5DB;margin-bottom:18px">02</div>
+          <div style="font-size:18px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Diseño</div>
+          <p style="font-size:14px;color:#D1D5DB;line-height:1.65;margin:0">Armamos tu sitio con tus propiedades, tu marca y tu zona. Ves el avance en vivo, igual que en el reto.</p>
+        </div>
+        <div data-reveal="" style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);border-radius:14px;padding:32px 30px">
+          <div style="font-size:44px;font-weight:300;letter-spacing:-0.04em;color:#D1D5DB;margin-bottom:18px">03</div>
+          <div style="font-size:18px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Entrega rápida</div>
+          <p style="font-size:14px;color:#D1D5DB;line-height:1.65;margin:0">Sitio en línea con tu dominio y hosting configurados. Listo para ponerlo en tu bio de Instagram.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OFERTA ══ -->
+  <section id="oferta" data-screen-label="Oferta" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
+    <div data-reveal="" style="max-width:720px;margin:0 auto;text-align:center;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.18);box-shadow:inset 0 1px 1px rgba(255,255,255,0.12);border-radius:14px;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px)">
+      <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:20px">Programa selectivo</div>
+      <div style="font-size:clamp(64px,11vw,120px);font-weight:300;letter-spacing:-0.05em;line-height:1">$1,000</div>
+      <div style="font-size:14px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D1D5DB;margin:14px 0 28px">USD · Web + dominio + hosting</div>
+      <p style="font-size:16px;color:#D1D5DB;line-height:1.7;max-width:460px;margin:0 auto 32px">Producimos {{ cuposMes }} sitios por mes. Es nuestra capacidad real, no una táctica. Cuando se llenan los cupos, se cierra el mes.</p>
+      <a href="https://wa.me/56939054197?text=Hola%20Vortexia%2C%20quiero%20uno%20de%20los%20cupos%20de%20este%20mes." target="_blank" rel="noopener" style="display:inline-block;background:#fff;color:#000;padding:15px 40px;border-radius:8px;font-size:14px;font-weight:500;transition:background 0.2s" style-hover="background:#F3F4F6;color:#000">Reservar mi cupo por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ══ CTA FINAL + FOOTER ══ -->
+  <section data-screen-label="CTA final" style="padding:clamp(100px,16vh,180px) clamp(20px,5vw,64px) 0;text-align:center">
+    <div data-reveal="" style="max-width:820px;margin:0 auto">
+      <h2 style="font-size:clamp(2rem,5vw,3.6rem);font-weight:400;letter-spacing:-0.04em;line-height:1.1;margin:0 0 28px">Tu ciudad ya tiene realtors.<br>Todavía no tiene tu sitio.</h2>
+      <a href="https://wa.me/56939054197?text=Hola%20Vortexia%2C%20soy%20realtor%20y%20quiero%20mi%20sitio." target="_blank" rel="noopener" style="display:inline-block;background:#fff;color:#000;padding:16px 44px;border-radius:8px;font-size:15px;font-weight:500;transition:background 0.2s" style-hover="background:#F3F4F6;color:#000">Escribir por WhatsApp</a>
+      <div style="font-size:13px;color:#D1D5DB;margin-top:18px">+56 9 3905 4197 · <a href="https://www.instagram.com/vortexia.automate" target="_blank" rel="noopener" style="color:#D1D5DB;text-decoration:underline" style-hover="color:#fff">@vortexia.automate</a></div>
+    </div>
+    <div style="margin-top:clamp(70px,10vh,120px);border-top:1px solid rgba(255,255,255,0.1);padding:28px 0;overflow:hidden;white-space:nowrap">
+      <div style="display:inline-flex;gap:0;animation:vxMarquee 28s linear infinite;will-change:transform">
+        <span style="font-size:clamp(28px,4vw,52px);font-weight:300;letter-spacing:-0.03em;color:rgba(255,255,255,0.35);padding-right:40px">VORTEXIA · Solo realtors · Miami · Orlando · Santiago · Hispanoamérica ·&nbsp;</span>
+        <span style="font-size:clamp(28px,4vw,52px);font-weight:300;letter-spacing:-0.03em;color:rgba(255,255,255,0.35);padding-right:40px">VORTEXIA · Solo realtors · Miami · Orlando · Santiago · Hispanoamérica ·&nbsp;</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;retoDia&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 1, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 1, &quot;max&quot;: 365, &quot;section&quot;: &quot;El Reto&quot;},
+  &quot;retoSitios&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 4, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 0, &quot;max&quot;: 1000, &quot;section&quot;: &quot;El Reto&quot;},
+  &quot;cuposMes&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 10, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 1, &quot;max&quot;: 50, &quot;section&quot;: &quot;Oferta&quot;}
+}">
+class Component extends DCLogic {
+  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1 };
+
+  videoRef = React.createRef();
+  videoRef2 = React.createRef();
+  videoRef3 = React.createRef();
+  videoRef4 = React.createRef();
+
+  componentDidMount() {
+    // Autoplay fallback + crossfade sequence 1 -> 2 -> 3 -> 4 -> 1 -> ...
+    setTimeout(() => {
+      const vids = [this.videoRef, this.videoRef2, this.videoRef3, this.videoRef4]
+        .map(r => r.current).filter(Boolean);
+      const base = vids[0];
+      if (base && base.paused) { base.muted = true; base.play().catch(() => {}); }
+      if (vids.length > 1 && !this._xfade) {
+        this._xfade = true;
+        vids.forEach((v, i) => {
+          v.addEventListener('ended', () => {
+            const next = vids[(i + 1) % vids.length];
+            next.currentTime = 0;
+            next.muted = true;
+            next.play().catch(() => {});
+            // Overlay videos (index > 0) fade in/out; base stays underneath
+            if (next !== base) next.style.opacity = '1';
+            if (v !== base) setTimeout(() => { v.style.opacity = '0'; }, next === base ? 0 : 1200);
+          });
+        });
+      }
+    }, 400);
+    const words = ['MIAMI', 'ORLANDO', 'SANTIAGO', 'HISPANOAMÉRICA', 'SOLO REALTORS'];
+    this._words = words;
+    const start = performance.now();
+    const dur = 1900;
+    this._raf = () => {
+      const t = Math.min(1, (performance.now() - start) / dur);
+      const pct = Math.round(t * 100);
+      this.setState({ pct, wordIdx: Math.min(words.length - 1, Math.floor(t * words.length)) });
+      if (t < 1) {
+        requestAnimationFrame(this._raf);
+      } else {
+        this.setState({ loaderOpacity: 0 });
+        setTimeout(() => {
+          this.setState({ showLoader: false });
+          this._setupReveals();
+        }, 650);
+      }
+    };
+    requestAnimationFrame(this._raf);
+    // Safety: if something stalls, reveal anyway
+    setTimeout(() => { if (this.state.showLoader) { this.setState({ showLoader: false }); this._setupReveals(); } }, 4000);
+  }
+
+  _setupReveals() {
+    if (this._revealed) return;
+    this._revealed = true;
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+    els.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 800ms ease, transform 800ms ease';
+    });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          const counter = e.target.querySelector('[data-count]');
+          if (counter && !counter._done) this._animateCounters(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => io.observe(el));
+  }
+
+  _animateCounters(scope) {
+    scope.querySelectorAll('[data-count]').forEach(el => {
+      if (el._done) return;
+      el._done = true;
+      this._shuffle(el);
+      el.style.cursor = 'default';
+      el.addEventListener('mouseenter', () => {
+        if (el._playing) return;
+        this._shuffle(el);
+      });
+    });
+  }
+
+  // Shuffle effect (React Bits style): per-digit strip rolls through scrambled
+  // digits and lands on the final one. Vanilla implementation, no GSAP.
+  _shuffle(el) {
+    const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    const pad = parseInt(el.getAttribute('data-pad'), 10) || 0;
+    const final = String(target).padStart(pad, '0');
+    const H = parseFloat(getComputedStyle(el).fontSize);
+    const rolls = 3;
+    const charset = '0123456789';
+    const rand = () => charset.charAt(Math.floor(Math.random() * charset.length));
+
+    el._playing = true;
+    el.textContent = '';
+    const strips = [];
+    [...final].forEach(ch => {
+      const wrap = document.createElement('span');
+      wrap.style.cssText = 'display:inline-block;overflow:hidden;width:1ch;height:' + H + 'px;vertical-align:bottom';
+      const strip = document.createElement('span');
+      strip.style.cssText = 'display:block;will-change:transform;transform:translateY(0)';
+      for (let k = 0; k < rolls; k++) {
+        const d = document.createElement('span');
+        d.style.cssText = 'display:block;height:' + H + 'px;line-height:' + H + 'px;text-align:center';
+        d.textContent = rand();
+        strip.appendChild(d);
+      }
+      const fin = document.createElement('span');
+      fin.style.cssText = 'display:block;height:' + H + 'px;line-height:' + H + 'px;text-align:center';
+      fin.textContent = ch;
+      strip.appendChild(fin);
+      wrap.appendChild(strip);
+      el.appendChild(wrap);
+      strips.push(strip);
+    });
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        strips.forEach((strip, i) => {
+          strip.style.transition = 'transform 600ms cubic-bezier(0.215,0.61,0.355,1) ' + (i * 90) + 'ms';
+          strip.style.transform = 'translateY(' + (-rolls * H) + 'px)';
+        });
+        setTimeout(() => { el._playing = false; }, 600 + strips.length * 90 + 100);
+      });
+    });
+  }
+
+  renderVals() {
+    return {
+      videoRef: this.videoRef,
+      videoRef2: this.videoRef2,
+      videoRef3: this.videoRef3,
+      videoRef4: this.videoRef4,
+      pct: this.state.pct,
+      loadWord: (this._words || ['SOLO REALTORS'])[this.state.wordIdx] || 'SOLO REALTORS',
+      showLoader: this.state.showLoader,
+      loaderOpacity: this.state.loaderOpacity,
+      retoDia: this.props.retoDia ?? 1,
+      retoSitios: this.props.retoSitios ?? 4,
+      cuposMes: this.props.cuposMes ?? 10,
+    };
+  }
+}
+</script>
+</body>
+</html>
