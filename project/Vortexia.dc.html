@@ -20,6 +20,7 @@ a:hover{color:#D1D5DB}
 @keyframes vxMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes vxBlurLoop{0%{opacity:0;filter:blur(10px);transform:translateY(-50px)}9%{opacity:0.5;filter:blur(5px);transform:translateY(5px)}18%{opacity:1;filter:blur(0);transform:translateY(0)}82%{opacity:1;filter:blur(0);transform:translateY(0)}100%{opacity:0;filter:blur(10px);transform:translateY(-50px)}}
 @keyframes vxPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,0.5)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(255,255,255,0)}}
+@keyframes vxBlurIn{0%{opacity:0;filter:blur(10px);transform:translateY(-22px)}60%{opacity:0.6;filter:blur(4px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
 ::selection{background:#fff;color:#000}
 .liquid-glass{background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.12);position:relative;overflow:hidden}
 .liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
@@ -60,11 +61,11 @@ a:hover{color:#D1D5DB}
 
     <sc-if value="{{ heroIsSite }}" hint-placeholder-val="{{ false }}">
       <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(20px,5vw,64px)">
-        <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.6">
+        <div ref="{{ heroMetaRef }}" style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.6">
           <span>{{ heroSiteNumber }}</span><span style="width:20px;height:1px;background:rgba(255,255,255,0.3)"></span><span>{{ heroSiteCategory }}</span>
         </div>
-        <div style="font-size:clamp(2.2rem,6.5vw,5rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05">{{ heroSiteName }}</div>
-        <div style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.7">
+        <div ref="{{ heroNameRef }}" style="font-size:clamp(2.2rem,6.5vw,5rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05">{{ heroSiteName }}</div>
+        <div ref="{{ heroDomainRef }}" style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.7">
           <span>{{ heroSiteDomain }}</span><span>Ver sitio →</span>
         </div>
       </div>
@@ -204,8 +205,7 @@ a:hover{color:#D1D5DB}
 class Component extends DCLogic {
   state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0 };
 
-  // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the
-  // gallery sites in the same order as the "Sitios" section below.
+  // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the sites.
   heroSites = [
     { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/' },
     { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/' },
@@ -233,6 +233,49 @@ class Component extends DCLogic {
     const site = this.heroSites[this.state.heroSlide - 1];
     if (site) window.location.href = site.url;
   };
+
+  // Blur-text reveal (React Bits' BlurText, reimplemented in vanilla DOM
+  // since this project has no bundler/npm access to the `motion` package)
+  // for the site slides' caption text. The Vortexia wordmark slide is
+  // excluded on purpose.
+  heroMetaRef = React.createRef();
+  heroNameRef = React.createRef();
+  heroDomainRef = React.createRef();
+  _lastHeroSlide = 0;
+
+  componentDidUpdate(prevProps) {
+    if (this._lastHeroSlide !== this.state.heroSlide) {
+      this._lastHeroSlide = this.state.heroSlide;
+      if (this.state.heroSlide !== 0) this._playHeroTextIn();
+    }
+  }
+
+  _blurInWords(el, text, delay) {
+    if (!el) return;
+    el.innerHTML = '';
+    text.split(' ').forEach((word, i) => {
+      const span = document.createElement('span');
+      span.textContent = word + ' ';
+      span.style.cssText = 'display:inline-block;will-change:transform,filter,opacity;animation:vxBlurIn 0.55s ease ' + (delay + i * 90) + 'ms both';
+      el.appendChild(span);
+    });
+  }
+
+  _blurInBlock(el, delay) {
+    if (!el) return;
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'vxBlurIn 0.55s ease ' + delay + 'ms both';
+  }
+
+  _playHeroTextIn() {
+    const site = this.heroSites[this.state.heroSlide - 1];
+    if (!site) return;
+    this._blurInBlock(this.heroMetaRef.current, 0);
+    this._blurInWords(this.heroNameRef.current, site.name, 140);
+    const nameWords = site.name.split(' ').length;
+    this._blurInBlock(this.heroDomainRef.current, 140 + nameWords * 90 + 120);
+  }
 
   componentDidMount() {
     const words = ['MIAMI', 'ORLANDO', 'SANTIAGO', 'HISPANOAMÉRICA', 'SOLO REALTORS'];
@@ -359,6 +402,9 @@ class Component extends DCLogic {
       onHeroArrowNext: this.onHeroArrowNext,
       onHeroArrowPrev: this.onHeroArrowPrev,
       onHeroSiteClick: this.onHeroSiteClick,
+      heroMetaRef: this.heroMetaRef,
+      heroNameRef: this.heroNameRef,
+      heroDomainRef: this.heroDomainRef,
     };
   }
 }
