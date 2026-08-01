@@ -51,47 +51,30 @@ a:hover{color:#D1D5DB}
   </div>
 
   <!-- ══ HERO ══ -->
-  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden">
-    <video autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" ref="{{ videoRef }}" src="uploads/hero_video-1783916194296.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 1000ms ease-in-out"></video>
-    <video muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef2 }}" src="uploads/Wan_Video_Generate_Camera movement_ Slow, ultra-smooth dolly push forward starti.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1000ms ease-in-out"></video>
-    <video muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef3 }}" src="uploads/Wan_Video_Generate_Cinematic luxury mansion tour. The camera starts in a perfect.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1000ms ease-in-out"></video>
-    <video muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" ref="{{ videoRef4 }}" src="uploads/Wan_Video_Generate_One continuous cinematic camera move. Starting from the exact.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1000ms ease-in-out"></video>
+  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000">
 
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.1) 32%,rgba(0,0,0,0.2) 66%,rgba(0,0,0,0.6) 100%);pointer-events:none"></div>
-
-    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:26px;padding:120px clamp(20px,6vw,64px) 0;color:{{ heroTextColor }};transition:color 700ms ease">
-
-      <div class="liquid-glass" style="display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:9px 20px;font-size:12px;font-weight:500;letter-spacing:0.06em">
-        <span style="width:6px;height:6px;border-radius:999px;background:currentColor;animation:vxPulse 2s ease infinite"></span>
-        Ya van {{ retoSitios }} sitios en vivo este mes
+    <sc-if value="{{ heroIsVortexia }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+        <span style="font-family:'Saira Stencil One',sans-serif;font-size:clamp(3rem,11vw,9rem);letter-spacing:0.02em;color:#fff;text-transform:uppercase">VORTEXIA</span>
       </div>
+    </sc-if>
 
-      <h1 style="font-family:'Saira Stencil One',sans-serif;font-size:clamp(2.1rem,5.2vw,4.4rem);font-weight:400;letter-spacing:0.01em;line-height:1.14;margin:0;max-width:820px;text-transform:uppercase;text-shadow:{{ heroTextShadow }}">
-        <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 0ms infinite">El</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 150ms infinite">realtor</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 300ms infinite">con</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 450ms infinite">el</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 600ms infinite">mejor</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 750ms infinite">sitio</span><br>
-        <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 900ms infinite">de</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1050ms infinite">su</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1200ms infinite">ciudad</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1350ms infinite">cierra</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1500ms infinite">más</span> <span style="display:inline-block;will-change:transform,filter,opacity;animation:vxBlurLoop 4s ease 1650ms infinite">rápido.</span>
-      </h1>
-
-      <p style="font-size:16px;line-height:1.6;max-width:460px;margin:0;opacity:0.85;text-shadow:{{ heroTextShadow }}">Dejá de perder leads con un link de Instagram. Un sitio real, con tus propiedades, que cierra por WhatsApp.</p>
-
-      <div class="liquid-glass" style="display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:8px 8px 8px 22px;max-width:100%">
-        <span style="font-size:13px;font-weight:500;white-space:nowrap">$1,000 USD todo incluido</span>
-        <a href="https://wa.me/56939054197?text=Hola%20Vortexia%2C%20soy%20realtor%20y%20quiero%20mi%20sitio." target="_blank" rel="noopener" style="background:#fff;color:#000;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;transition:background 0.2s" style-hover="background:#F3F4F6;color:#000">Reservar mi cupo →</a>
+    <sc-if value="{{ heroIsSite }}" hint-placeholder-val="{{ false }}">
+      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;background:{{ heroSiteBg }}">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.6) 35%,rgba(0,0,0,0.97) 75%,rgba(0,0,0,0.97) 100%);pointer-events:none"></div>
+        <div style="position:absolute;left:clamp(20px,5vw,64px);right:clamp(20px,5vw,64px);bottom:clamp(40px,8vh,90px);color:#fff">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.75;margin-bottom:14px">
+            <span>{{ heroSiteNumber }}</span><span>{{ heroSiteCategory }}</span>
+          </div>
+          <div style="font-size:clamp(2rem,6vw,4.4rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05;margin-bottom:10px">{{ heroSiteName }}</div>
+          <div style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.85">
+            <span>{{ heroSiteDomain }}</span><span>Ver sitio →</span>
+          </div>
+        </div>
       </div>
+    </sc-if>
 
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(14px,3vw,30px);font-size:13px;font-weight:500;margin-top:2px">
-        <button onclick="{{ onHeroVideo0 }}" style="background:none;border:none;padding:0 0 6px;margin:0;font:inherit;cursor:pointer;color:inherit;opacity:{{ heroVideoOpacity0 }};border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:{{ heroVideoBorderColor0 }};transition:opacity 0.25s,border-bottom-color 0.25s" style-hover="opacity:{{ heroVideoHoverOpacity0 }}">Atardecer</button>
-        <button onclick="{{ onHeroVideo1 }}" style="background:none;border:none;padding:0 0 6px;margin:0;font:inherit;cursor:pointer;color:inherit;opacity:{{ heroVideoOpacity1 }};border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:{{ heroVideoBorderColor1 }};transition:opacity 0.25s,border-bottom-color 0.25s" style-hover="opacity:{{ heroVideoHoverOpacity1 }}">Recorrido</button>
-        <button onclick="{{ onHeroVideo2 }}" style="background:none;border:none;padding:0 0 6px;margin:0;font:inherit;cursor:pointer;color:inherit;opacity:{{ heroVideoOpacity2 }};border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:{{ heroVideoBorderColor2 }};transition:opacity 0.25s,border-bottom-color 0.25s" style-hover="opacity:{{ heroVideoHoverOpacity2 }}">Mansión</button>
-        <button onclick="{{ onHeroVideo3 }}" style="background:none;border:none;padding:0 0 6px;margin:0;font:inherit;cursor:pointer;color:inherit;opacity:{{ heroVideoOpacity3 }};border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:{{ heroVideoBorderColor3 }};transition:opacity 0.25s,border-bottom-color 0.25s" style-hover="opacity:{{ heroVideoHoverOpacity3 }}">Panorámica</button>
-      </div>
-    </div>
-
-    <div style="position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,0.7);padding:22px clamp(20px,5vw,64px) 30px">
-      <span>{{ cuposMes }} sitios por mes</span><span style="opacity:0.4">|</span>
-      <span>Solo Realtors</span><span style="opacity:0.4">|</span>
-      <span>$1,000 USD todo incluido</span><span style="opacity:0.4">|</span>
-      <span>Entrega rápida</span>
-    </div>
+    <button onclick="{{ onHeroArrow }}" aria-label="Siguiente sitio" class="liquid-glass" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
   </section>
 
   <!-- ══ EL RETO ══ -->
@@ -289,21 +272,33 @@ a:hover{color:#D1D5DB}
   &quot;cuposMes&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 10, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 1, &quot;max&quot;: 50, &quot;section&quot;: &quot;Oferta&quot;}
 }">
 class Component extends DCLogic {
-  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, activeHeroVideo: 0, heroTransitioning: false };
+  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0 };
 
-  videoRef = React.createRef();
-  videoRef2 = React.createRef();
-  videoRef3 = React.createRef();
-  videoRef4 = React.createRef();
+  // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the
+  // gallery sites in the same order as the "Sitios" section below.
+  heroSites = [
+    { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/', bg: "url('assets/site-juanpablopistorio.png') center top / cover no-repeat" },
+    { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/', bg: "url('assets/site-tupiso.png') center top / cover no-repeat" },
+    { n: '03', cat: 'Real Estate', name: 'Estates', domain: 'estates-real-estate.vercel.app', url: 'https://estates-real-estate.vercel.app/', bg: "url('assets/site-estates.png') center top / cover no-repeat" },
+    { n: '04', cat: 'Realtor', name: 'Hernán Sosa', domain: 'hernan-sosa.vercel.app', url: 'https://hernan-sosa.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '05', cat: 'Desarrollo', name: 'Costa del Pacífico', domain: 'costadelpacifico-omega.vercel.app', url: 'https://costadelpacifico-omega.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '06', cat: 'Brokers', name: 'Correa Schmit', domain: 'correaschmit.vercel.app', url: 'https://correaschmit.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '07', cat: 'Realtor', name: 'Schumacher', domain: 'schumacher.vercel.app', url: 'https://schumacher.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '08', cat: 'Inmobiliaria', name: 'Activo Más', domain: 'activomas.vercel.app', url: 'https://activomas.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '09', cat: 'Constructora', name: 'Valle Constructores', domain: 'valleconstructores.vercel.app', url: 'https://valleconstructores.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+  ];
+
+  onHeroArrow = () => {
+    this.setState({ heroSlide: (this.state.heroSlide + 1) % (this.heroSites.length + 1) });
+  };
+
+  onHeroSiteClick = () => {
+    const site = this.heroSites[this.state.heroSlide - 1];
+    if (site) window.location.href = site.url;
+  };
 
   componentDidMount() {
-    // Hero videos all loop continuously in the background; the switcher just
-    // crossfades opacity between them (see setHeroVideo below).
-    setTimeout(() => {
-      const vids = [this.videoRef, this.videoRef2, this.videoRef3, this.videoRef4]
-        .map(r => r.current).filter(Boolean);
-      vids.forEach(v => { v.muted = true; v.loop = true; v.play().catch(() => {}); });
-    }, 400);
     const words = ['MIAMI', 'ORLANDO', 'SANTIAGO', 'HISPANOAMÉRICA', 'SOLO REALTORS'];
     this._words = words;
     const start = performance.now();
@@ -325,20 +320,6 @@ class Component extends DCLogic {
     requestAnimationFrame(this._raf);
     // Safety: if something stalls, reveal anyway
     setTimeout(() => { if (this.state.showLoader) { this.setState({ showLoader: false }); this._setupReveals(); } }, 4000);
-  }
-
-  onHeroVideo0 = () => this.setHeroVideo(0);
-  onHeroVideo1 = () => this.setHeroVideo(1);
-  onHeroVideo2 = () => this.setHeroVideo(2);
-  onHeroVideo3 = () => this.setHeroVideo(3);
-
-  setHeroVideo(idx) {
-    if (idx === this.state.activeHeroVideo || this.state.heroTransitioning) return;
-    const vids = [this.videoRef, this.videoRef2, this.videoRef3, this.videoRef4]
-      .map(r => r.current).filter(Boolean);
-    vids.forEach((v, i) => { if (v) v.style.opacity = i === idx ? '1' : '0'; });
-    this.setState({ activeHeroVideo: idx, heroTransitioning: true });
-    setTimeout(() => this.setState({ heroTransitioning: false }), 1000);
   }
 
   _setupReveals() {
@@ -423,14 +404,9 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const borderColorFor = i => (this.state.activeHeroVideo === i ? '#fff' : 'transparent');
-    const opacityFor = i => (this.state.activeHeroVideo === i ? 1 : 0.5);
-    const hoverOpacityFor = i => (this.state.activeHeroVideo === i ? 1 : 0.8);
+    const isVortexia = this.state.heroSlide === 0;
+    const site = isVortexia ? null : this.heroSites[this.state.heroSlide - 1];
     return {
-      videoRef: this.videoRef,
-      videoRef2: this.videoRef2,
-      videoRef3: this.videoRef3,
-      videoRef4: this.videoRef4,
       pct: this.state.pct,
       loadWord: (this._words || ['SOLO REALTORS'])[this.state.wordIdx] || 'SOLO REALTORS',
       showLoader: this.state.showLoader,
@@ -438,24 +414,15 @@ class Component extends DCLogic {
       retoDia: this.props.retoDia ?? 1,
       retoSitios: this.props.retoSitios ?? 4,
       cuposMes: this.props.cuposMes ?? 10,
-      heroTextColor: '#fff',
-      heroTextShadow: '0 2px 24px rgba(0,0,0,0.35)',
-      onHeroVideo0: this.onHeroVideo0,
-      onHeroVideo1: this.onHeroVideo1,
-      onHeroVideo2: this.onHeroVideo2,
-      onHeroVideo3: this.onHeroVideo3,
-      heroVideoOpacity0: opacityFor(0),
-      heroVideoOpacity1: opacityFor(1),
-      heroVideoOpacity2: opacityFor(2),
-      heroVideoOpacity3: opacityFor(3),
-      heroVideoBorderColor0: borderColorFor(0),
-      heroVideoBorderColor1: borderColorFor(1),
-      heroVideoBorderColor2: borderColorFor(2),
-      heroVideoBorderColor3: borderColorFor(3),
-      heroVideoHoverOpacity0: hoverOpacityFor(0),
-      heroVideoHoverOpacity1: hoverOpacityFor(1),
-      heroVideoHoverOpacity2: hoverOpacityFor(2),
-      heroVideoHoverOpacity3: hoverOpacityFor(3),
+      heroIsVortexia: isVortexia,
+      heroIsSite: !isVortexia,
+      heroSiteNumber: site ? site.n : '',
+      heroSiteCategory: site ? site.cat : '',
+      heroSiteName: site ? site.name : '',
+      heroSiteDomain: site ? site.domain : '',
+      heroSiteBg: site ? site.bg : '#000',
+      onHeroArrow: this.onHeroArrow,
+      onHeroSiteClick: this.onHeroSiteClick,
     };
   }
 }
