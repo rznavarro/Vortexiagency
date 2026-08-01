@@ -248,16 +248,16 @@ class Component extends DCLogic {
 
   // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the sites.
   heroSites = [
-    { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/' },
-    { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/' },
-    { n: '03', cat: 'Real Estate', name: 'Estates', domain: 'estates-real-estate.vercel.app', url: 'https://estates-real-estate.vercel.app/' },
-    { n: '04', cat: 'Realtor', name: 'Hernán Sosa', domain: 'hernan-sosa.vercel.app', url: 'https://hernan-sosa.vercel.app/' },
-    { n: '05', cat: 'Desarrollo', name: 'Costa del Pacífico', domain: 'costadelpacifico-omega.vercel.app', url: 'https://costadelpacifico-omega.vercel.app/' },
-    { n: '06', cat: 'Brokers', name: 'Correa Schmit', domain: 'correaschmit.vercel.app', url: 'https://correaschmit.vercel.app/' },
-    { n: '07', cat: 'Realtor', name: 'Schumacher', domain: 'schumacher.vercel.app', url: 'https://schumacher.vercel.app/' },
-    { n: '08', cat: 'Inmobiliaria', name: 'Activo Más', domain: 'activomas.vercel.app', url: 'https://activomas.vercel.app/' },
-    { n: '09', cat: 'Constructora', name: 'Valle Constructores', domain: 'valleconstructores.vercel.app', url: 'https://valleconstructores.vercel.app/' },
-    { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/' },
+    { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/', repo: 'https://github.com/rznavarro/juanpablopistorio' },
+    { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/', repo: 'https://github.com/rznavarro/tupiso' },
+    { n: '03', cat: 'Real Estate', name: 'Estates', domain: 'estates-real-estate.vercel.app', url: 'https://estates-real-estate.vercel.app/', repo: 'https://github.com/rznavarro/estates-real-estate-' },
+    { n: '04', cat: 'Realtor', name: 'Hernán Sosa', domain: 'hernan-sosa.vercel.app', url: 'https://hernan-sosa.vercel.app/', repo: 'https://github.com/rznavarro/Hernan.sosa' },
+    { n: '05', cat: 'Desarrollo', name: 'Costa del Pacífico', domain: 'costadelpacifico-omega.vercel.app', url: 'https://costadelpacifico-omega.vercel.app/', repo: 'https://github.com/rznavarro/costadelpacifico' },
+    { n: '06', cat: 'Brokers', name: 'Correa Schmit', domain: 'correaschmit.vercel.app', url: 'https://correaschmit.vercel.app/', repo: 'https://github.com/rznavarro/correaschmit' },
+    { n: '07', cat: 'Realtor', name: 'Schumacher', domain: 'schumacher.vercel.app', url: 'https://schumacher.vercel.app/', repo: 'https://github.com/rznavarro/Schumacher' },
+    { n: '08', cat: 'Inmobiliaria', name: 'Activo Más', domain: 'activomas.vercel.app', url: 'https://activomas.vercel.app/', repo: 'https://github.com/rznavarro/Activomas' },
+    { n: '09', cat: 'Constructora', name: 'Valle Constructores', domain: 'valleconstructores.vercel.app', url: 'https://valleconstructores.vercel.app/', repo: 'https://github.com/rznavarro/Valleconstructores' },
+    { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/', repo: 'https://github.com/rznavarro/BrokerandPartner' },
   ];
 
   onHeroArrowNext = () => {
@@ -273,6 +273,13 @@ class Component extends DCLogic {
   onHeroSiteClick = () => {
     const site = this.heroSites[this.state.heroSlide - 1];
     if (site) window.location.href = site.url;
+  };
+
+  // Pressing "Y" while any site slide is active opens that site's GitHub repo.
+  _onKeyDown = (e) => {
+    if (e.key !== 'y' && e.key !== 'Y') return;
+    const site = this.heroSites[this.state.heroSlide - 1];
+    if (site && site.repo) window.open(site.repo, '_blank', 'noopener');
   };
 
   // Blur-text reveal (React Bits' BlurText, reimplemented in vanilla DOM
@@ -319,6 +326,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
+    window.addEventListener('keydown', this._onKeyDown);
     const words = ['MIAMI', 'ORLANDO', 'SANTIAGO', 'HISPANOAMÉRICA', 'SOLO REALTORS'];
     this._words = words;
     const start = performance.now();
@@ -361,6 +369,10 @@ class Component extends DCLogic {
       });
     }, { threshold: 0.15 });
     els.forEach(el => io.observe(el));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKeyDown);
   }
 
   renderVals() {
