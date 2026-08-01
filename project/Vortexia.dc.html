@@ -56,7 +56,9 @@ a:hover{color:#D1D5DB}
   </div>
 
   <!-- ══ HERO ══ -->
-  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000">
+  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000 url('assets/hero-code-bg.jpg') center / cover no-repeat">
+
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.72)"></div>
 
     <sc-if value="{{ heroIsVortexia }}" hint-placeholder-val="{{ true }}">
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
@@ -65,7 +67,7 @@ a:hover{color:#D1D5DB}
     </sc-if>
 
     <sc-if value="{{ heroIsSite }}" hint-placeholder-val="{{ false }}">
-      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(20px,5vw,64px)">
+      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(20px,5vw,64px)">
         <div ref="{{ heroMetaRef }}" style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.6">
           <span>{{ heroSiteNumber }}</span><span style="width:20px;height:1px;background:rgba(255,255,255,0.3)"></span><span>{{ heroSiteCategory }}</span>
         </div>
