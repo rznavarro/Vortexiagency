@@ -59,16 +59,13 @@ a:hover{color:#D1D5DB}
     </sc-if>
 
     <sc-if value="{{ heroIsSite }}" hint-placeholder-val="{{ false }}">
-      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;background:{{ heroSiteBg }}">
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.6) 35%,rgba(0,0,0,0.97) 75%,rgba(0,0,0,0.97) 100%);pointer-events:none"></div>
-        <div style="position:absolute;left:clamp(20px,5vw,64px);right:clamp(20px,5vw,64px);bottom:clamp(40px,8vh,90px);color:#fff">
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.75;margin-bottom:14px">
-            <span>{{ heroSiteNumber }}</span><span>{{ heroSiteCategory }}</span>
-          </div>
-          <div style="font-size:clamp(2rem,6vw,4.4rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05;margin-bottom:10px">{{ heroSiteName }}</div>
-          <div style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.85">
-            <span>{{ heroSiteDomain }}</span><span>Ver sitio →</span>
-          </div>
+      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(20px,5vw,64px)">
+        <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.6">
+          <span>{{ heroSiteNumber }}</span><span style="width:20px;height:1px;background:rgba(255,255,255,0.3)"></span><span>{{ heroSiteCategory }}</span>
+        </div>
+        <div style="font-size:clamp(2.2rem,6.5vw,5rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05">{{ heroSiteName }}</div>
+        <div style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.7">
+          <span>{{ heroSiteDomain }}</span><span>Ver sitio →</span>
         </div>
       </div>
     </sc-if>
@@ -210,16 +207,16 @@ class Component extends DCLogic {
   // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the
   // gallery sites in the same order as the "Sitios" section below.
   heroSites = [
-    { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/', bg: "url('assets/site-juanpablopistorio.png') center top / cover no-repeat" },
-    { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/', bg: "url('assets/site-tupiso.png') center top / cover no-repeat" },
-    { n: '03', cat: 'Real Estate', name: 'Estates', domain: 'estates-real-estate.vercel.app', url: 'https://estates-real-estate.vercel.app/', bg: "url('assets/site-estates.png') center top / cover no-repeat" },
-    { n: '04', cat: 'Realtor', name: 'Hernán Sosa', domain: 'hernan-sosa.vercel.app', url: 'https://hernan-sosa.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '05', cat: 'Desarrollo', name: 'Costa del Pacífico', domain: 'costadelpacifico-omega.vercel.app', url: 'https://costadelpacifico-omega.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '06', cat: 'Brokers', name: 'Correa Schmit', domain: 'correaschmit.vercel.app', url: 'https://correaschmit.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '07', cat: 'Realtor', name: 'Schumacher', domain: 'schumacher.vercel.app', url: 'https://schumacher.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '08', cat: 'Inmobiliaria', name: 'Activo Más', domain: 'activomas.vercel.app', url: 'https://activomas.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '09', cat: 'Constructora', name: 'Valle Constructores', domain: 'valleconstructores.vercel.app', url: 'https://valleconstructores.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
-    { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
+    { n: '01', cat: 'Realtor', name: 'Juan Pablo Pistorio', domain: 'juanpablopistorio.vercel.app', url: 'https://juanpablopistorio.vercel.app/' },
+    { n: '02', cat: 'Inmobiliaria', name: 'TuPiso', domain: 'tupiso.vercel.app', url: 'https://tupiso.vercel.app/' },
+    { n: '03', cat: 'Real Estate', name: 'Estates', domain: 'estates-real-estate.vercel.app', url: 'https://estates-real-estate.vercel.app/' },
+    { n: '04', cat: 'Realtor', name: 'Hernán Sosa', domain: 'hernan-sosa.vercel.app', url: 'https://hernan-sosa.vercel.app/' },
+    { n: '05', cat: 'Desarrollo', name: 'Costa del Pacífico', domain: 'costadelpacifico-omega.vercel.app', url: 'https://costadelpacifico-omega.vercel.app/' },
+    { n: '06', cat: 'Brokers', name: 'Correa Schmit', domain: 'correaschmit.vercel.app', url: 'https://correaschmit.vercel.app/' },
+    { n: '07', cat: 'Realtor', name: 'Schumacher', domain: 'schumacher.vercel.app', url: 'https://schumacher.vercel.app/' },
+    { n: '08', cat: 'Inmobiliaria', name: 'Activo Más', domain: 'activomas.vercel.app', url: 'https://activomas.vercel.app/' },
+    { n: '09', cat: 'Constructora', name: 'Valle Constructores', domain: 'valleconstructores.vercel.app', url: 'https://valleconstructores.vercel.app/' },
+    { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/' },
   ];
 
   onHeroArrowNext = () => {
@@ -359,7 +356,6 @@ class Component extends DCLogic {
       heroSiteCategory: site ? site.cat : '',
       heroSiteName: site ? site.name : '',
       heroSiteDomain: site ? site.domain : '',
-      heroSiteBg: site ? site.bg : '#000',
       onHeroArrowNext: this.onHeroArrowNext,
       onHeroArrowPrev: this.onHeroArrowPrev,
       onHeroSiteClick: this.onHeroSiteClick,
