@@ -74,7 +74,8 @@ a:hover{color:#D1D5DB}
       </div>
     </sc-if>
 
-    <button onclick="{{ onHeroArrow }}" aria-label="Siguiente sitio" class="liquid-glass" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
+    <button onclick="{{ onHeroArrowPrev }}" aria-label="Sitio anterior" class="liquid-glass" style="position:absolute;top:50%;left:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">←</button>
+    <button onclick="{{ onHeroArrowNext }}" aria-label="Siguiente sitio" class="liquid-glass" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
   </section>
 
   <!-- ══ EL RETO ══ -->
@@ -289,8 +290,14 @@ class Component extends DCLogic {
     { n: '10', cat: 'Brokers', name: 'Broker & Partner', domain: 'brokerand-partner.vercel.app', url: 'https://brokerand-partner.vercel.app/', bg: 'linear-gradient(160deg,#161616 0%,#000 75%)' },
   ];
 
-  onHeroArrow = () => {
-    this.setState({ heroSlide: (this.state.heroSlide + 1) % (this.heroSites.length + 1) });
+  onHeroArrowNext = () => {
+    const total = this.heroSites.length + 1;
+    this.setState({ heroSlide: (this.state.heroSlide + 1) % total });
+  };
+
+  onHeroArrowPrev = () => {
+    const total = this.heroSites.length + 1;
+    this.setState({ heroSlide: (this.state.heroSlide - 1 + total) % total });
   };
 
   onHeroSiteClick = () => {
@@ -421,7 +428,8 @@ class Component extends DCLogic {
       heroSiteName: site ? site.name : '',
       heroSiteDomain: site ? site.domain : '',
       heroSiteBg: site ? site.bg : '#000',
-      onHeroArrow: this.onHeroArrow,
+      onHeroArrowNext: this.onHeroArrowNext,
+      onHeroArrowPrev: this.onHeroArrowPrev,
       onHeroSiteClick: this.onHeroSiteClick,
     };
   }
