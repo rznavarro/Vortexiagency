@@ -24,6 +24,8 @@ a:hover{color:#D1D5DB}
 ::selection{background:#fff;color:#000}
 .liquid-glass{background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.12);position:relative;overflow:hidden}
 .liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hero-bg{background:#000 url('assets/hero-desktop/hero-bg-desktop.jpg') center / cover no-repeat}
+@media (max-width:768px){.hero-bg{background-image:url('assets/hero-mobile/hero-bg-mobile.jpg')}}
 </style>
 </helmet>
 
@@ -56,7 +58,7 @@ a:hover{color:#D1D5DB}
   </div>
 
   <!-- ══ HERO ══ -->
-  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000 url('assets/hero-code-bg.jpg') center / cover no-repeat">
+  <section id="top" class="hero-bg" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden">
 
     <div style="position:absolute;inset:0;background:rgba(0,0,0,0.72)"></div>
 
