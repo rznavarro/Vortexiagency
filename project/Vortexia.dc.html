@@ -11,6 +11,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Saira+Stencil+One&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 html,body{margin:0;padding:0;background:#000;color:#fff;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 a{color:#fff;text-decoration:none}
@@ -18,6 +21,8 @@ a:hover{color:#D1D5DB}
 @keyframes vxWord{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
 @keyframes vxFade{from{opacity:0}to{opacity:1}}
 @keyframes vxMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes vxMarqueeReverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes vxRingSpin{to{rotate:y 1turn}}
 @keyframes vxBlurLoop{0%{opacity:0;filter:blur(10px);transform:translateY(-50px)}9%{opacity:0.5;filter:blur(5px);transform:translateY(5px)}18%{opacity:1;filter:blur(0);transform:translateY(0)}82%{opacity:1;filter:blur(0);transform:translateY(0)}100%{opacity:0;filter:blur(10px);transform:translateY(-50px)}}
 @keyframes vxPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,0.5)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(255,255,255,0)}}
 @keyframes vxBlurIn{0%{opacity:0;filter:blur(10px);transform:translateY(-22px)}60%{opacity:0.6;filter:blur(4px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
@@ -41,6 +46,9 @@ a:hover{color:#D1D5DB}
   .cf-arrow-next{right:0 !important}
   .ms-section{height:560px !important}
   .ms-card{width:44px !important;height:62px !important}
+  .gm-wrap{height:140px !important}
+  .gm-tile{width:140px !important;height:84px !important}
+  .vx-ring-scene{display:none !important}
 }
 .ms-card{perspective:800px;cursor:pointer}
 .ms-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.4,0.2,0.2,1)}
@@ -48,6 +56,13 @@ a:hover{color:#D1D5DB}
 .ms-card-face{position:absolute;inset:0;border-radius:8px;overflow:hidden;backface-visibility:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.55)}
 .ms-card-front{background-size:cover;filter:grayscale(1) contrast(1.2) brightness(0.8)}
 .ms-card-back{background:#111;border:1px solid rgba(255,255,255,0.15);transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:4px}
+.gm-wrap{position:absolute;inset:0 0 auto 0;height:220px;overflow:hidden;pointer-events:none;z-index:0}
+.gm-row{display:flex;white-space:nowrap;filter:grayscale(1) brightness(0.5);opacity:0.15;will-change:transform}
+.gm-tile{width:220px;height:130px;border-radius:6px;margin-right:14px;background-size:cover;background-position:center;flex:none;display:inline-block}
+.vx-ring-scene{display:grid;align-content:center;overflow:hidden;perspective:32em;-webkit-mask:linear-gradient(90deg,#0000,#000 16%,#000 84%,#0000);mask:linear-gradient(90deg,#0000,#000 16%,#000 84%,#0000);min-height:clamp(260px,32vw,360px)}
+.vx-ring{--n:6;--ba:calc(1turn / var(--n));place-self:center;display:grid;transform-style:preserve-3d;animation:vxRingSpin 40s linear infinite}
+.vx-ring:hover{animation-play-state:paused}
+.vx-ring-card{grid-area:1 / 1;width:var(--w);aspect-ratio:7 / 10;object-fit:cover;border-radius:0.9em;backface-visibility:hidden;border:1px solid rgba(255,255,255,0.16);box-shadow:0 16px 40px rgba(0,0,0,0.5);filter:grayscale(1) contrast(1.6) brightness(1.1);transform:rotatey(calc(var(--i) * var(--ba))) translatez(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))))}
 </style>
 </helmet>
 
@@ -165,6 +180,14 @@ a:hover{color:#D1D5DB}
           <p style="font-size:14px;color:#D1D5DB;line-height:1.65;margin:0">Sitio en línea con tu dominio y hosting configurados. Listo para ponerlo en tu bio de Instagram.</p>
         </div>
       </div>
+
+      <div class="vx-ring-scene" data-reveal="" style="margin-top:clamp(56px,8vh,88px)">
+        <div class="vx-ring">
+          <sc-for list="{{ ringCards }}" as="c" hint-placeholder-count="6">
+            <img class="vx-ring-card" loading="lazy" src="{{ c.src }}" alt="" style="--i:{{ c.i }};--w:11em">
+          </sc-for>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -189,13 +212,25 @@ a:hover{color:#D1D5DB}
   </section>
 
   <!-- ══ CTA FINAL + FOOTER ══ -->
-  <section data-screen-label="CTA final" style="padding:clamp(100px,16vh,180px) clamp(20px,5vw,64px) 0;text-align:center">
-    <div data-reveal="" style="max-width:820px;margin:0 auto">
+  <section data-screen-label="CTA final" style="position:relative;padding:clamp(100px,16vh,180px) clamp(20px,5vw,64px) 0;text-align:center">
+    <div class="gm-wrap">
+      <div class="gm-row" style="animation:vxMarquee 60s linear infinite">
+        <sc-for list="{{ gmRow1 }}" as="c" hint-placeholder-count="12">
+          <span class="gm-tile" style="background-image:url('{{ c.src }}')"></span>
+        </sc-for>
+      </div>
+      <div class="gm-row" style="animation:vxMarqueeReverse 80s linear infinite;margin-top:10px">
+        <sc-for list="{{ gmRow2 }}" as="c" hint-placeholder-count="12">
+          <span class="gm-tile" style="background-image:url('{{ c.src }}')"></span>
+        </sc-for>
+      </div>
+    </div>
+    <div data-reveal="" style="position:relative;z-index:2;max-width:820px;margin:0 auto">
       <h2 style="font-size:clamp(2rem,5vw,3.6rem);font-weight:400;letter-spacing:-0.04em;line-height:1.1;margin:0 0 28px">Tu ciudad ya tiene realtors.<br>Todavía no tiene tu sitio.</h2>
       <a href="https://wa.me/56939054197?text=Hola%20Vortexia%2C%20soy%20realtor%20y%20quiero%20mi%20sitio." target="_blank" rel="noopener" style="display:inline-block;background:#fff;color:#000;padding:16px 44px;border-radius:8px;font-size:15px;font-weight:500;transition:background 0.2s" style-hover="background:#F3F4F6;color:#000">Escribir por WhatsApp</a>
       <div style="font-size:13px;color:#D1D5DB;margin-top:18px">+56 9 3905 4197 · <a href="https://www.instagram.com/vortexia.automate" target="_blank" rel="noopener" style="color:#D1D5DB;text-decoration:underline" style-hover="color:#fff">@vortexia.automate</a></div>
     </div>
-    <div style="margin-top:clamp(70px,10vh,120px);border-top:1px solid rgba(255,255,255,0.1);padding:28px 0;overflow:hidden;white-space:nowrap">
+    <div style="position:relative;z-index:2;margin-top:clamp(70px,10vh,120px);border-top:1px solid rgba(255,255,255,0.1);padding:28px 0;overflow:hidden;white-space:nowrap;background:#000">
       <div style="display:inline-flex;gap:0;animation:vxMarquee 28s linear infinite;will-change:transform">
         <span style="font-size:clamp(28px,4vw,52px);font-weight:300;letter-spacing:-0.03em;color:rgba(255,255,255,0.35);padding-right:40px">VORTEXIA · Solo realtors · Miami · Orlando · Santiago · Hispanoamérica ·&nbsp;</span>
         <span style="font-size:clamp(28px,4vw,52px);font-weight:300;letter-spacing:-0.03em;color:rgba(255,255,255,0.35);padding-right:40px">VORTEXIA · Solo realtors · Miami · Orlando · Santiago · Hispanoamérica ·&nbsp;</span>
@@ -228,6 +263,48 @@ class Component extends DCLogic {
   onOfferLeave = () => {
     this.setState({ offerTilt: { rx: 0, ry: 0 } });
   };
+
+  // Global smooth scroll (Lenis) + richer scroll reveals (GSAP/ScrollTrigger).
+  // Both load from CDN, so everything here is written to keep working (via
+  // the vanilla fallback in _setupReveals) even if a script never arrives.
+  _initLenis = () => {
+    if (this._lenis || this._unmounted) return;
+    if (!window.Lenis) { this._lenisRetry = setTimeout(this._initLenis, 50); return; }
+    this._lenis = new window.Lenis({
+      duration: 1.1,
+      smoothWheel: true,
+      prevent: (node) => !!(node && node.closest && node.closest('#galeria')),
+    });
+    this._startMasterRAF();
+  };
+
+  _startMasterRAF = () => {
+    const tick = (t) => {
+      if (this._lenis) this._lenis.raf(t);
+      this._masterRAF = requestAnimationFrame(tick);
+    };
+    this._masterRAF = requestAnimationFrame(tick);
+  };
+
+  // Extensible image pools — the same 3 real screenshots today, but just
+  // arrays: add more paths later and the marquee/ring pick them up as-is.
+  gmSources = [
+    'assets/site-estates.png',
+    'assets/site-juanpablopistorio.png',
+    'assets/site-tupiso.png',
+  ];
+  ringSources = [
+    'assets/site-estates.png',
+    'assets/site-juanpablopistorio.png',
+    'assets/site-tupiso.png',
+  ];
+
+  _gmRow(offset) {
+    const tiles = Array.from({ length: 6 }, (_, i) => ({
+      src: this.gmSources[(i + offset) % this.gmSources.length],
+    }));
+    return tiles.concat(tiles);
+  }
 
   // "Galería" scroll-morph: scatter → line → circle → bottom arc, using
   // grayscale crops of real client-site screenshots as the flip cards.
@@ -498,6 +575,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
+    this._initLenis();
     window.addEventListener('keydown', this._onKeyDown);
     const words = ['MIAMI', 'ORLANDO', 'SANTIAGO', 'HISPANOAMÉRICA', 'SOLO REALTORS'];
     this._words = words;
@@ -546,10 +624,10 @@ class Component extends DCLogic {
     }
   }
 
-  _setupReveals() {
-    if (this._revealed) return;
-    this._revealed = true;
-    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+  // Reveals prefer GSAP + ScrollTrigger (richer easing) but keep the
+  // original dependency-free IntersectionObserver path as a permanent
+  // fallback, in case the CDN never loads (offline/blocked).
+  _revealVanilla(els) {
     els.forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(28px)';
@@ -567,7 +645,33 @@ class Component extends DCLogic {
     els.forEach(el => io.observe(el));
   }
 
+  _setupReveals() {
+    if (this._revealed) return;
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+
+    if (window.gsap && window.ScrollTrigger) {
+      this._revealed = true;
+      window.gsap.registerPlugin(window.ScrollTrigger);
+      els.forEach(el => {
+        window.gsap.fromTo(el, { opacity: 0, y: 28 }, {
+          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+        });
+      });
+      return;
+    }
+
+    this._revealRetries = (this._revealRetries || 0) + 1;
+    if (this._revealRetries < 60) {
+      this._revealRetryTimer = setTimeout(() => this._setupReveals(), 50);
+      return;
+    }
+    this._revealed = true;
+    this._revealVanilla(els);
+  }
+
   componentWillUnmount() {
+    this._unmounted = true;
     window.removeEventListener('keydown', this._onKeyDown);
     clearInterval(this._cfTimer);
 
@@ -581,6 +685,12 @@ class Component extends DCLogic {
     if (this._msRAF) cancelAnimationFrame(this._msRAF);
     clearTimeout(this._msPhaseTimer1);
     clearTimeout(this._msPhaseTimer2);
+
+    clearTimeout(this._lenisRetry);
+    clearTimeout(this._revealRetryTimer);
+    if (this._masterRAF) cancelAnimationFrame(this._masterRAF);
+    if (this._lenis) { try { this._lenis.destroy(); } catch (e) {} }
+    if (window.ScrollTrigger) { try { window.ScrollTrigger.getAll().forEach(t => t.kill()); } catch (e) {} }
   }
 
   renderVals() {
@@ -633,6 +743,12 @@ class Component extends DCLogic {
         src: this.msSources[i % this.msSources.length],
         pos: this.msPositions[i % this.msPositions.length],
         style: this._msCardStyle(i),
+      })),
+      gmRow1: this._gmRow(0),
+      gmRow2: this._gmRow(1),
+      ringCards: Array.from({ length: 6 }, (_, i) => ({
+        i,
+        src: this.ringSources[i % this.ringSources.length],
       })),
     };
   }
