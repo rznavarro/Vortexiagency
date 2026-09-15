@@ -39,7 +39,15 @@ a:hover{color:#D1D5DB}
   .cf-arrow{width:38px !important;height:38px !important;font-size:16px !important}
   .cf-arrow-prev{left:0 !important}
   .cf-arrow-next{right:0 !important}
+  .ms-section{height:560px !important}
+  .ms-card{width:44px !important;height:62px !important}
 }
+.ms-card{perspective:800px;cursor:pointer}
+.ms-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.4,0.2,0.2,1)}
+.ms-card:hover .ms-card-inner{transform:rotateY(180deg)}
+.ms-card-face{position:absolute;inset:0;border-radius:8px;overflow:hidden;backface-visibility:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.55)}
+.ms-card-front{background-size:cover;filter:grayscale(1) contrast(1.2) brightness(0.8)}
+.ms-card-back{background:#111;border:1px solid rgba(255,255,255,0.15);transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:4px}
 </style>
 </helmet>
 
@@ -78,6 +86,31 @@ a:hover{color:#D1D5DB}
 
     <button onclick="{{ onHeroArrowPrev }}" aria-label="Sitio anterior" class="liquid-glass hero-arrow hero-arrow-prev" style="position:absolute;top:50%;left:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">←</button>
     <button onclick="{{ onHeroArrowNext }}" aria-label="Siguiente sitio" class="liquid-glass hero-arrow hero-arrow-next" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
+  </section>
+
+  <!-- ══ GALERÍA (scroll morph: scatter → línea → círculo → arco) ══ -->
+  <section id="galeria" data-screen-label="Galería" class="ms-section" ref="{{ msSectionRef }}" onmousemove="{{ onMsMouseMove }}" style="position:relative;height:clamp(520px,82vh,720px);overflow:hidden;background:#000;border-bottom:1px solid rgba(255,255,255,0.1)">
+
+    <div style="position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;padding:0 24px;opacity:{{ msIntroOpacity }};transition:opacity 500ms ease">
+      <h2 style="font-size:clamp(1.7rem,4vw,3rem);font-weight:400;letter-spacing:-0.03em;color:#fff;margin:0 0 14px;max-width:640px">El futuro de tu inmobiliaria empieza en una pantalla.</h2>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:#D1D5DB;margin:0">Desplazate para explorar</p>
+    </div>
+
+    <div style="position:absolute;top:10%;left:0;right:0;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;pointer-events:none;padding:0 24px;opacity:{{ msContentOpacity }};transform:translateY({{ msContentY }}px);transition:opacity 500ms ease,transform 500ms ease">
+      <h2 style="font-size:clamp(1.5rem,3.4vw,2.4rem);font-weight:400;letter-spacing:-0.03em;color:#fff;margin:0 0 12px">Así se ven los sitios que hacemos</h2>
+      <p style="font-size:14px;color:#D1D5DB;max-width:440px;line-height:1.6;margin:0">Cada sitio se diseña a medida para un realtor. Sin plantillas. Seguí desplazándote para verlos girar.</p>
+    </div>
+
+    <div style="position:relative;width:100%;height:100%">
+      <sc-for list="{{ msCards }}" as="c" hint-placeholder-count="12">
+        <div class="ms-card" style="{{ c.style }}">
+          <div class="ms-card-inner">
+            <div class="ms-card-face ms-card-front" style="background-image:url('{{ c.src }}');background-position:{{ c.pos }}"></div>
+            <div class="ms-card-face ms-card-back"><span>Ver sitio</span></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
   </section>
 
   <!-- ══ POR QUÉ SOLO REALTORS ══ -->
@@ -175,8 +208,14 @@ a:hover{color:#D1D5DB}
 <script type="text/x-dc" data-dc-script data-props="{
   &quot;cuposMes&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 10, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 1, &quot;max&quot;: 50, &quot;section&quot;: &quot;Oferta&quot;}
 }">
+const MS_TOTAL = 12;
+const MS_MAX_SCROLL = 2400;
+
 class Component extends DCLogic {
-  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0, cfIndex: 0, offerTilt: { rx: 0, ry: 0 } };
+  state = {
+    pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0, cfIndex: 0, offerTilt: { rx: 0, ry: 0 },
+    msPhase: 'scatter', msSize: { width: 0, height: 0 }, msMorph: 0, msArc: 0, msParallax: 0,
+  };
 
   // "Oferta" pricing card: subtle mouse-tilt for a premium feel.
   onOfferMove = (e) => {
@@ -189,6 +228,151 @@ class Component extends DCLogic {
   onOfferLeave = () => {
     this.setState({ offerTilt: { rx: 0, ry: 0 } });
   };
+
+  // "Galería" scroll-morph: scatter → line → circle → bottom arc, using
+  // grayscale crops of real client-site screenshots as the flip cards.
+  msSectionRef = React.createRef();
+  msSources = [
+    'uploads/%7B6D9B3547-5673-44AD-9159-D412DE1356E7%7D.png',
+    'uploads/%7B7CBBBA89-7486-4B10-8092-D512499459F0%7D.png',
+    'uploads/%7BB3C2FCDF-DBAC-40D2-904D-C58C44FA5663%7D.png',
+  ];
+  msPositions = ['20% 15%', '75% 10%', '50% 50%', '15% 80%', '80% 75%', '50% 5%', '10% 45%', '85% 45%'];
+  msScatter = Array.from({ length: MS_TOTAL }, () => ({
+    x: (Math.random() - 0.5) * 900,
+    y: (Math.random() - 0.5) * 500,
+    rotation: (Math.random() - 0.5) * 180,
+  }));
+
+  _msLerp(a, b, t) { return a + (b - a) * t; }
+  _msMapRange(v, a, b, c, d) {
+    const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
+    return c + (d - c) * t;
+  }
+
+  _msCardTarget(i) {
+    if (this.state.msPhase === 'scatter') {
+      return { ...this.msScatter[i], scale: 0.6, opacity: 0 };
+    }
+    if (this.state.msPhase === 'line') {
+      const spacing = 46;
+      const totalW = MS_TOTAL * spacing;
+      return { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
+    }
+    const size = this.state.msSize;
+    const w = size.width || 800;
+    const h = size.height || 500;
+    const isMobile = w < 640;
+    const minDim = Math.min(w, h);
+
+    const circleRadius = Math.min(minDim * 0.32, 230);
+    const circleAngle = (i / MS_TOTAL) * 360;
+    const circleRad = (circleAngle * Math.PI) / 180;
+    const circlePos = {
+      x: Math.cos(circleRad) * circleRadius,
+      y: Math.sin(circleRad) * circleRadius,
+      rotation: circleAngle + 90,
+    };
+
+    const baseRadius = Math.min(w, h * 1.5);
+    const arcRadius = baseRadius * (isMobile ? 1.3 : 1.05);
+    const arcApexY = h * (isMobile ? 0.32 : 0.22);
+    const arcCenterY = arcApexY + arcRadius;
+    const spreadAngle = isMobile ? 100 : 130;
+    const startAngle = -90 - spreadAngle / 2;
+    const step = spreadAngle / (MS_TOTAL - 1);
+    const maxRotation = spreadAngle * 0.8;
+    const boundedRotation = -this.state.msArc * maxRotation;
+    const currentArcAngle = startAngle + i * step + boundedRotation;
+    const arcRad = (currentArcAngle * Math.PI) / 180;
+    const arcPos = {
+      x: Math.cos(arcRad) * arcRadius + this.state.msParallax,
+      y: Math.sin(arcRad) * arcRadius + arcCenterY,
+      rotation: currentArcAngle + 90,
+      scale: isMobile ? 1.2 : 1.5,
+    };
+
+    const m = this.state.msMorph;
+    return {
+      x: this._msLerp(circlePos.x, arcPos.x, m),
+      y: this._msLerp(circlePos.y, arcPos.y, m),
+      rotation: this._msLerp(circlePos.rotation, arcPos.rotation, m),
+      scale: this._msLerp(1, arcPos.scale, m),
+      opacity: 1,
+    };
+  }
+
+  _msCardStyle(i) {
+    const t = this._msCardTarget(i);
+    return 'position:absolute;left:50%;top:50%;width:60px;height:85px;z-index:3;'
+      + 'transform:translate(-50%,-50%) translate(' + t.x + 'px,' + t.y + 'px) rotate(' + t.rotation + 'deg) scale(' + t.scale + ');'
+      + 'opacity:' + t.opacity + ';'
+      + 'transition:transform 550ms cubic-bezier(0.22,1,0.36,1),opacity 500ms ease';
+  }
+
+  _msSetTargets() {
+    const s = this._msScroll || 0;
+    this._msTargetMorph = Math.min(Math.max(s / 500, 0), 1);
+    this._msTargetArc = Math.min(Math.max((s - 500) / (MS_MAX_SCROLL - 500), 0), 1);
+  }
+
+  _msStartLoop() {
+    if (this._msRAF) return;
+    const step = () => {
+      const k = 0.12;
+      const cm = this.state.msMorph, ca = this.state.msArc, cp = this.state.msParallax;
+      const tm = this._msTargetMorph || 0, ta = this._msTargetArc || 0, tp = this._msTargetParallax || 0;
+      const nm = cm + (tm - cm) * k;
+      const na = ca + (ta - ca) * k;
+      const np = cp + (tp - cp) * k;
+      const done = Math.abs(tm - nm) < 0.001 && Math.abs(ta - na) < 0.001 && Math.abs(tp - np) < 0.05;
+      this.setState({ msMorph: done ? tm : nm, msArc: done ? ta : na, msParallax: done ? tp : np });
+      this._msRAF = done ? null : requestAnimationFrame(step);
+    };
+    this._msRAF = requestAnimationFrame(step);
+  }
+
+  // Only hijack wheel/touch scroll while there's morph/arc progress left to
+  // consume in the scrolled direction; otherwise let the page scroll past.
+  _msOnWheel = (e) => {
+    const cur = this._msScroll || 0;
+    const goingDown = e.deltaY > 0;
+    if ((goingDown && cur >= MS_MAX_SCROLL) || (!goingDown && cur <= 0)) return;
+    e.preventDefault();
+    this._msScroll = Math.min(Math.max(cur + e.deltaY, 0), MS_MAX_SCROLL);
+    this._msSetTargets();
+    this._msStartLoop();
+  };
+
+  _msOnTouchStart = (e) => { this._msTouchY = e.touches[0].clientY; };
+  _msOnTouchMove = (e) => {
+    const y = e.touches[0].clientY;
+    const delta = this._msTouchY - y;
+    this._msTouchY = y;
+    const cur = this._msScroll || 0;
+    const goingDown = delta > 0;
+    if ((goingDown && cur >= MS_MAX_SCROLL) || (!goingDown && cur <= 0)) return;
+    e.preventDefault();
+    this._msScroll = Math.min(Math.max(cur + delta, 0), MS_MAX_SCROLL);
+    this._msSetTargets();
+    this._msStartLoop();
+  };
+
+  onMsMouseMove = (e) => {
+    const el = this.msSectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    this._msTargetParallax = nx * 70;
+    this._msStartLoop();
+  };
+
+  _msStartIntro() {
+    if (this._msIntroStarted) return;
+    this._msIntroStarted = true;
+    this._msPhaseTimer1 = setTimeout(() => this.setState({ msPhase: 'line' }), 400);
+    this._msPhaseTimer2 = setTimeout(() => this.setState({ msPhase: 'circle' }), 1800);
+  }
 
   // "Por qué solo realtors" 3D coverflow carousel.
   cfReasons = [
@@ -330,16 +514,36 @@ class Component extends DCLogic {
         setTimeout(() => {
           this.setState({ showLoader: false });
           this._setupReveals();
+          this._msStartIntro();
         }, 650);
       }
     };
     requestAnimationFrame(this._raf);
     // Safety: if something stalls, reveal anyway
-    setTimeout(() => { if (this.state.showLoader) { this.setState({ showLoader: false }); this._setupReveals(); } }, 4000);
+    setTimeout(() => {
+      if (this.state.showLoader) {
+        this.setState({ showLoader: false });
+        this._setupReveals();
+        this._msStartIntro();
+      }
+    }, 4000);
 
     this._cfTimer = setInterval(() => {
       if (!this._cfHovered) this.onCfNext();
     }, 5000);
+
+    const msEl = this.msSectionRef.current;
+    if (msEl) {
+      msEl.addEventListener('wheel', this._msOnWheel, { passive: false });
+      msEl.addEventListener('touchstart', this._msOnTouchStart, { passive: false });
+      msEl.addEventListener('touchmove', this._msOnTouchMove, { passive: false });
+      this._msResizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          this.setState({ msSize: { width: entry.contentRect.width, height: entry.contentRect.height } });
+        }
+      });
+      this._msResizeObserver.observe(msEl);
+    }
   }
 
   _setupReveals() {
@@ -366,6 +570,17 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('keydown', this._onKeyDown);
     clearInterval(this._cfTimer);
+
+    const msEl = this.msSectionRef.current;
+    if (msEl) {
+      msEl.removeEventListener('wheel', this._msOnWheel);
+      msEl.removeEventListener('touchstart', this._msOnTouchStart);
+      msEl.removeEventListener('touchmove', this._msOnTouchMove);
+    }
+    if (this._msResizeObserver) this._msResizeObserver.disconnect();
+    if (this._msRAF) cancelAnimationFrame(this._msRAF);
+    clearTimeout(this._msPhaseTimer1);
+    clearTimeout(this._msPhaseTimer2);
   }
 
   renderVals() {
@@ -409,6 +624,16 @@ class Component extends DCLogic {
       offerTiltStyle: 'perspective(1000px) rotateX(' + this.state.offerTilt.rx + 'deg) rotateY(' + this.state.offerTilt.ry + 'deg)',
       onOfferMove: this.onOfferMove,
       onOfferLeave: this.onOfferLeave,
+      msSectionRef: this.msSectionRef,
+      onMsMouseMove: this.onMsMouseMove,
+      msIntroOpacity: this.state.msPhase !== 'circle' ? 0 : Math.max(0, 1 - this.state.msMorph * 2),
+      msContentOpacity: this._msMapRange(this.state.msMorph, 0.8, 1, 0, 1),
+      msContentY: this._msMapRange(this.state.msMorph, 0.8, 1, 20, 0),
+      msCards: Array.from({ length: MS_TOTAL }, (_, i) => ({
+        src: this.msSources[i % this.msSources.length],
+        pos: this.msPositions[i % this.msPositions.length],
+        style: this._msCardStyle(i),
+      })),
     };
   }
 }
