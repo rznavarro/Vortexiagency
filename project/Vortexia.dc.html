@@ -34,6 +34,11 @@ a:hover{color:#D1D5DB}
   .hero-wordmark{font-size:clamp(2.3rem,13vw,4rem) !important}
   .hero-site-slide{padding-bottom:96px !important;gap:12px !important}
   .hero-site-name{font-size:clamp(1.8rem,9vw,3rem) !important}
+  .cf-stage{height:300px !important}
+  .cf-card{width:210px !important;min-height:230px !important;padding:24px 16px !important}
+  .cf-arrow{width:38px !important;height:38px !important;font-size:16px !important}
+  .cf-arrow-prev{left:0 !important}
+  .cf-arrow-next{right:0 !important}
 }
 </style>
 </helmet>
@@ -76,26 +81,30 @@ a:hover{color:#D1D5DB}
   </section>
 
   <!-- ══ POR QUÉ SOLO REALTORS ══ -->
-  <section id="porque" data-screen-label="Por qué solo realtors" style="padding:clamp(90px,14vh,160px) clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.1)">
-    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,80px)">
-      <div data-reveal="">
-        <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:16px">Por qué solo realtors</div>
-        <h2 style="font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-0.04em;line-height:1.15;margin:0">Una agencia genérica hace sitios.<br>Nosotros hacemos sitios que venden propiedades.</h2>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div data-reveal="" style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,0.12)">
-          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Sabemos qué mira un comprador</div>
-          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">Fotos primero, precio claro, contacto en un toque. Cada sitio está armado alrededor de cómo se compra una propiedad, no de cómo se ve bonita una web.</p>
+  <section id="porque" data-screen-label="Por qué solo realtors" style="position:relative;padding:clamp(90px,14vh,160px) 0;border-bottom:1px solid rgba(255,255,255,0.1);overflow:hidden" onmouseenter="{{ onCfHoverIn }}" onmouseleave="{{ onCfHoverOut }}">
+    <div data-reveal="" style="max-width:720px;margin:0 auto;text-align:center;padding:0 clamp(20px,5vw,64px)">
+      <div style="font-size:12px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#D1D5DB;margin-bottom:16px">Por qué solo realtors</div>
+      <h2 style="font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-0.04em;line-height:1.15;margin:0">Una agencia genérica hace sitios.<br>Nosotros hacemos sitios que venden propiedades.</h2>
+    </div>
+
+    <div class="cf-stage" data-reveal="" style="position:relative;width:100%;height:340px;margin-top:clamp(48px,7vh,72px);perspective:1400px" ontouchstart="{{ onCfTouchStart }}" ontouchend="{{ onCfTouchEnd }}">
+
+      <sc-for list="{{ cfReasons }}" as="r" hint-placeholder-count="3">
+        <div onclick="{{ r.onSelect }}" class="cf-card liquid-glass" style="{{ r.style }};display:flex;flex-direction:column;justify-content:center;border-radius:16px;padding:32px 26px;text-align:center">
+          <div style="font-size:40px;font-weight:300;letter-spacing:-0.04em;color:rgba(255,255,255,0.5)">{{ r.n }}</div>
+          <div style="font-size:18px;font-weight:500;letter-spacing:-0.02em;margin:10px 0">{{ r.title }}</div>
+          <p style="font-size:14px;color:#D1D5DB;line-height:1.6;margin:0">{{ r.desc }}</p>
         </div>
-        <div data-reveal="" style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,0.12)">
-          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">WhatsApp, no formularios</div>
-          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">En Miami, Santiago o Bogotá, los negocios inmobiliarios se cierran por WhatsApp. Tu sitio lleva ahí, sin fricción.</p>
-        </div>
-        <div data-reveal="" style="padding:26px 0">
-          <div style="font-size:19px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px">Hablamos tu idioma y tu mercado</div>
-          <p style="font-size:15px;color:#D1D5DB;line-height:1.65;margin:0">Español e inglés, USD, mercados hispanos. No tenés que explicarle tu negocio a tu diseñador.</p>
-        </div>
-      </div>
+      </sc-for>
+
+      <button onclick="{{ onCfPrev }}" aria-label="Motivo anterior" class="liquid-glass cf-arrow cf-arrow-prev" style="position:absolute;left:clamp(4px,2vw,24px);top:50%;transform:translateY(-50%);z-index:5;width:48px;height:48px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:20px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">←</button>
+      <button onclick="{{ onCfNext }}" aria-label="Motivo siguiente" class="liquid-glass cf-arrow cf-arrow-next" style="position:absolute;right:clamp(4px,2vw,24px);top:50%;transform:translateY(-50%);z-index:5;width:48px;height:48px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:20px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:30px">
+      <sc-for list="{{ cfDots }}" as="d" hint-placeholder-count="3">
+        <button onclick="{{ d.onSelect }}" aria-label="Ir a ese motivo" style="{{ d.style }}"></button>
+      </sc-for>
     </div>
   </section>
 
@@ -158,7 +167,51 @@ a:hover{color:#D1D5DB}
   &quot;cuposMes&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 10, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 1, &quot;max&quot;: 50, &quot;section&quot;: &quot;Oferta&quot;}
 }">
 class Component extends DCLogic {
-  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0 };
+  state = { pct: 0, wordIdx: 0, showLoader: true, loaderOpacity: 1, heroSlide: 0, cfIndex: 0 };
+
+  // "Por qué solo realtors" 3D coverflow carousel.
+  cfReasons = [
+    { n: '01', title: 'Sabemos qué mira un comprador', desc: 'Fotos primero, precio claro, contacto en un toque. Cada sitio está armado alrededor de cómo se compra una propiedad, no de cómo se ve bonita una web.' },
+    { n: '02', title: 'WhatsApp, no formularios', desc: 'En Miami, Santiago o Bogotá, los negocios inmobiliarios se cierran por WhatsApp. Tu sitio lleva ahí, sin fricción.' },
+    { n: '03', title: 'Hablamos tu idioma y tu mercado', desc: 'Español e inglés, USD, mercados hispanos. No tenés que explicarle tu negocio a tu diseñador.' },
+  ];
+
+  onCfNext = () => {
+    const total = this.cfReasons.length;
+    this.setState({ cfIndex: (this.state.cfIndex + 1) % total });
+  };
+
+  onCfPrev = () => {
+    const total = this.cfReasons.length;
+    this.setState({ cfIndex: (this.state.cfIndex - 1 + total) % total });
+  };
+
+  onCfHoverIn = () => { this._cfHovered = true; };
+  onCfHoverOut = () => { this._cfHovered = false; };
+
+  onCfTouchStart = (e) => { this._cfTouchStartX = e.touches[0].clientX; };
+  onCfTouchEnd = (e) => {
+    const diff = e.changedTouches[0].clientX - (this._cfTouchStartX || 0);
+    if (Math.abs(diff) > 45) {
+      if (diff < 0) this.onCfNext(); else this.onCfPrev();
+    }
+  };
+
+  _cfCardStyle(idx) {
+    const total = this.cfReasons.length;
+    const offset = (idx - this.state.cfIndex + total) % total;
+    let extra = 0, scale = 1, rotate = 0, opacity = 1, z = 3, filter = 'brightness(1)', shadow = '0 25px 55px rgba(0,0,0,0.55)';
+    if (offset === 1) {
+      extra = 230; scale = 0.82; rotate = -20; opacity = 0.4; z = 2; filter = 'brightness(0.55)'; shadow = '0 14px 30px rgba(0,0,0,0.4)';
+    } else if (offset !== 0) {
+      extra = -230; scale = 0.82; rotate = 20; opacity = 0.4; z = 2; filter = 'brightness(0.55)'; shadow = '0 14px 30px rgba(0,0,0,0.4)';
+    }
+    return 'position:absolute;top:50%;left:50%;width:280px;min-height:280px;'
+      + 'transform:translate(-50%,-50%) translateX(' + extra + 'px) scale(' + scale + ') rotateY(' + rotate + 'deg);'
+      + 'opacity:' + opacity + ';z-index:' + z + ';filter:' + filter + ';'
+      + 'box-shadow:' + shadow + ', inset 0 1px 1px rgba(255,255,255,0.12);'
+      + 'transition:all 700ms cubic-bezier(0.25,1,0.5,1);cursor:' + (offset === 0 ? 'default' : 'pointer');
+  }
 
   // Hero carousel: slide 0 is the Vortexia wordmark, slides 1..10 are the sites.
   heroSites = [
@@ -262,6 +315,10 @@ class Component extends DCLogic {
     requestAnimationFrame(this._raf);
     // Safety: if something stalls, reveal anyway
     setTimeout(() => { if (this.state.showLoader) { this.setState({ showLoader: false }); this._setupReveals(); } }, 4000);
+
+    this._cfTimer = setInterval(() => {
+      if (!this._cfHovered) this.onCfNext();
+    }, 5000);
   }
 
   _setupReveals() {
@@ -287,6 +344,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this._onKeyDown);
+    clearInterval(this._cfTimer);
   }
 
   renderVals() {
@@ -310,6 +368,23 @@ class Component extends DCLogic {
       heroMetaRef: this.heroMetaRef,
       heroNameRef: this.heroNameRef,
       heroDomainRef: this.heroDomainRef,
+      cfReasons: this.cfReasons.map((r, i) => ({
+        n: r.n,
+        title: r.title,
+        desc: r.desc,
+        style: this._cfCardStyle(i),
+        onSelect: () => { if (i !== this.state.cfIndex) this.setState({ cfIndex: i }); },
+      })),
+      cfDots: this.cfReasons.map((_, i) => ({
+        style: 'height:8px;width:' + (i === this.state.cfIndex ? '28px' : '8px') + ';border-radius:999px;background:' + (i === this.state.cfIndex ? '#fff' : 'rgba(255,255,255,0.25)') + ';border:none;cursor:pointer;transition:all 300ms ease',
+        onSelect: () => this.setState({ cfIndex: i }),
+      })),
+      onCfPrev: this.onCfPrev,
+      onCfNext: this.onCfNext,
+      onCfHoverIn: this.onCfHoverIn,
+      onCfHoverOut: this.onCfHoverOut,
+      onCfTouchStart: this.onCfTouchStart,
+      onCfTouchEnd: this.onCfTouchEnd,
     };
   }
 }
