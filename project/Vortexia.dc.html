@@ -26,6 +26,15 @@ a:hover{color:#D1D5DB}
 .liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .hero-bg{background:#000 url('assets/hero-desktop/hero-bg-desktop.jpg') center / cover no-repeat}
 @media (max-width:768px){.hero-bg{background-image:url('assets/hero-mobile/hero-bg-mobile.jpg')}}
+@media (max-width:640px){
+  .hero-arrow{top:auto !important;bottom:20px !important;transform:none !important;width:44px !important;height:44px !important;font-size:18px !important}
+  .hero-arrow-prev{left:calc(50% - 52px) !important}
+  .hero-arrow-next{right:auto !important;left:calc(50% + 8px) !important}
+  .hero-wordmark-wrap{padding:0 24px !important}
+  .hero-wordmark{font-size:clamp(2.3rem,13vw,4rem) !important}
+  .hero-site-slide{padding-bottom:96px !important;gap:12px !important}
+  .hero-site-name{font-size:clamp(1.8rem,9vw,3rem) !important}
+}
 </style>
 </helmet>
 
@@ -45,25 +54,25 @@ a:hover{color:#D1D5DB}
     <div style="position:absolute;inset:0;background:rgba(0,0,0,0.72)"></div>
 
     <sc-if value="{{ heroIsVortexia }}" hint-placeholder-val="{{ true }}">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-        <span style="font-family:'Saira Stencil One',sans-serif;font-size:clamp(3rem,11vw,9rem);letter-spacing:0.02em;color:transparent;-webkit-text-stroke:2px #fff;text-stroke:2px #fff;text-transform:uppercase">VORTEXIA</span>
+      <div class="hero-wordmark-wrap" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 clamp(70px,15vw,100px)">
+        <span class="hero-wordmark" style="font-family:'Saira Stencil One',sans-serif;font-size:clamp(3rem,11vw,9rem);letter-spacing:0.02em;color:transparent;-webkit-text-stroke:2px #fff;text-stroke:2px #fff;text-transform:uppercase">VORTEXIA</span>
       </div>
     </sc-if>
 
     <sc-if value="{{ heroIsSite }}" hint-placeholder-val="{{ false }}">
-      <div onclick="{{ onHeroSiteClick }}" style="position:absolute;inset:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(20px,5vw,64px)">
+      <div onclick="{{ onHeroSiteClick }}" class="hero-site-slide" style="position:absolute;inset:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:#fff;padding:0 clamp(56px,10vw,64px)">
         <div ref="{{ heroMetaRef }}" style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;opacity:0.6">
           <span>{{ heroSiteNumber }}</span><span style="width:20px;height:1px;background:rgba(255,255,255,0.3)"></span><span>{{ heroSiteCategory }}</span>
         </div>
-        <div ref="{{ heroNameRef }}" style="font-size:clamp(2.2rem,6.5vw,5rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05;color:transparent;-webkit-text-stroke:1.5px #fff;text-stroke:1.5px #fff">{{ heroSiteName }}</div>
+        <div ref="{{ heroNameRef }}" class="hero-site-name" style="font-size:clamp(2.2rem,6.5vw,5rem);font-weight:400;letter-spacing:-0.03em;line-height:1.05;color:transparent;-webkit-text-stroke:1.5px #fff;text-stroke:1.5px #fff">{{ heroSiteName }}</div>
         <div ref="{{ heroDomainRef }}" style="display:flex;align-items:baseline;gap:14px;font-size:14px;opacity:0.7">
           <span>{{ heroSiteDomain }}</span><span>Ver sitio →</span>
         </div>
       </div>
     </sc-if>
 
-    <button onclick="{{ onHeroArrowPrev }}" aria-label="Sitio anterior" class="liquid-glass" style="position:absolute;top:50%;left:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">←</button>
-    <button onclick="{{ onHeroArrowNext }}" aria-label="Siguiente sitio" class="liquid-glass" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
+    <button onclick="{{ onHeroArrowPrev }}" aria-label="Sitio anterior" class="liquid-glass hero-arrow hero-arrow-prev" style="position:absolute;top:50%;left:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">←</button>
+    <button onclick="{{ onHeroArrowNext }}" aria-label="Siguiente sitio" class="liquid-glass hero-arrow hero-arrow-next" style="position:absolute;top:50%;right:clamp(16px,4vw,40px);transform:translateY(-50%);z-index:3;width:56px;height:56px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:22px;transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">→</button>
   </section>
 
   <!-- ══ POR QUÉ SOLO REALTORS ══ -->
